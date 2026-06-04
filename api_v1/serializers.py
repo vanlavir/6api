@@ -35,7 +35,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    recipe = serializers.StringRelatedField(read_only=True)
+    recipe = RecipeSerializer(read_only=True)
     recipe_id = serializers.PrimaryKeyRelatedField(
         queryset=Recipe.objects.all(),
         source='recipe',

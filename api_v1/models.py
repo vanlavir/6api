@@ -10,10 +10,20 @@ class Category(models.Model):
 
 
 class Recipe(models.Model):
+    DIFFICULTY_CHOICES = [
+        ('easy', 'Easy'),
+        ('medium', 'Medium'),
+        ('hard', 'Hard'),
+    ]
+
     title = models.CharField(max_length=150)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='recipes')
     cooking_time = models.PositiveIntegerField(help_text='Cooking time in minutes')
-    difficulty = models.CharField(max_length=50, blank=True)
+    difficulty = models.CharField(
+        max_length=20,
+        choices=DIFFICULTY_CHOICES,
+        default='medium',
+    )
     servings = models.PositiveIntegerField()
     is_published = models.BooleanField(default=True)
     ingredients = models.TextField()
@@ -28,7 +38,7 @@ class Comment(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='comments')
     author_name = models.CharField(max_length=100)
     text = models.TextField()
-    rating = models.PositiveIntegerField()
+    rating = models.PositiveIntegerField(default=5)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
